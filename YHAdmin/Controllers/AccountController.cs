@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using WebMatrix.WebData;
+using YHAdmin.Models;
 
 namespace YHAdmin.Controllers
 {
-    class AccountController : Controller
+    public class AccountController : Controller
     {
         public ActionResult Login()
         {
@@ -18,11 +19,11 @@ namespace YHAdmin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(Login loginCredentials)
+        public ActionResult Login(LoginViewModel loginCredentials)
         {
             if (ModelState.IsValid)
             {
-                if (WebSecurity.Login(loginCredentials.UserName, loginCredentials.Password))
+                if (WebSecurity.Login(loginCredentials.Username, loginCredentials.Password))
                 {
                     //Exakt vad som händer när en användare lyckas logga in kan ändras i ett senare skede.
                     return RedirectToAction("Index", "Home");
@@ -31,6 +32,12 @@ namespace YHAdmin.Controllers
                     return View(loginCredentials);
             }
             return View(loginCredentials);
+        }
+
+        public ActionResult Logout()
+        {
+            WebSecurity.Logout();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

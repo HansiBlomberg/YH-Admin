@@ -8,13 +8,14 @@ using System.Web.UI;
 
 namespace YHAdmin.Models
 {
-    class Login
+    public class LoginViewModel
     {
         [Required]
-        [Display(Name = "User Name")]
+        [Display(Name = "Användarnamn")]
         public string Username { get; set; }
         [Required]
-        [Display(Name = "Password")]
+        [Display(Name = "Lösenord")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }
