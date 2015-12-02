@@ -25,11 +25,15 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                        <li>@Html.ActionLink("Logga ut", "Logout", "Account")</li>
+                        if (User.IsInRole("Utbildningsledare"))
+                        {
+                            <li>@Html.ActionLink("Skicka registreringsinbjudan", "SendRegistrationEmail", "Account")</li>
+                        }
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                        <li>@Html.ActionLink("Logga in", "Login", "Account")</li>
                     }                   
                 </ul>
             </div>

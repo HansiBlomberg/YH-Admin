@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -32,6 +33,28 @@ namespace YHAdmin.Controllers
                     return View(loginCredentials);
             }
             return View(loginCredentials);
+        }
+
+        public ActionResult SendRegistrationEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendRegistrationEmail(RegisterViewModel model)
+        {
+            var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+            var message = new MailMessage();
+            message.To.Add(new MailAddress(model.Email));
+            message.Subject = "Your email subject";
+            message.Body = string.Format(body, "teamtiger", "teamtiger@gmail.com", "Hej på dig!");
+            message.IsBodyHtml = true;
+            using (var smtp = new SmtpClient())
+            {
+                smtp.Send(message);
+                return View("Sent");
+            }
         }
 
         public ActionResult Logout()
